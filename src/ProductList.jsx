@@ -4,6 +4,7 @@ import CartItem from './CartItem';
 function ProductList({ onHomeClick }) {
     const [showCart, setShowCart] = useState(false);
     const [showPlants, setShowPlants] = useState(false); // State to control the visibility of the About Us page
+    const [addedToCart, setAddedToCart] = useState({});
 
     const plantsArray = [
         {
@@ -252,6 +253,16 @@ function ProductList({ onHomeClick }) {
         e.preventDefault();
         setShowCart(false);
     };
+
+    const handleAddToCart = (product) => {
+        dispatchEvent(addItem(product));
+
+        setAddedToCart((prevState) => ({
+            ...prevState,
+            [product.name]: true,
+        }));
+    }
+
     return (
         <div>
             <div className="navbar" style={styleObj}>
@@ -289,7 +300,7 @@ function ProductList({ onHomeClick }) {
                                         />
                                         <div className="product-title">{plant.name}</div>
                                         <div className="product-description">{plant.description}</div>
-                                        <div className="product-cost">${plant.cost}</div>
+                                        <div className="product-cost">{plant.cost}</div>
                                         <button
                                             className="product-button"
                                             onClick={() => handleAddToCart(plant)}
